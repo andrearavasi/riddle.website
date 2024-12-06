@@ -5,7 +5,7 @@ import { VolumesList } from "./_components/volume";
 export default async function Home() {
 
 
-  void api.volume.getAll.prefetch();
+  // void api.volume.getAll.prefetch();
 
   return (
     <HydrateClient>
