@@ -1,4 +1,3 @@
-import { title } from "process";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -13,12 +12,13 @@ export const guessTitleRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(z.object({ title: z.string().min(1), userid: z.number() }))
+    .input(z.object({ title: z.string().min(1), userid: z.number(), poemid: z.number() }))
     .mutation(async ({ ctx, input }) => {
       return ctx.db.guessedTitle.create({
         data: {
           title: input.title,
-          userid: input.userid
+          userId: input.userid,
+          poemId: input.poemid
         },
       });
     }),

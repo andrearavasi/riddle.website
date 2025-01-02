@@ -35,7 +35,7 @@ model User {
     id        Int            @id @default(autoincrement())
     name      String
     createdAt DateTime       @default(now())
-    updatedAt DateTime       @updatedAt
+    updatedAt DateTime?      @updatedAt
     guesses   GuessedTitle[]
 
     @@index([name])
@@ -56,7 +56,6 @@ model Poem {
 model GuessedTitle {
     id        Int      @id @default(autoincrement())
     title     String
-    userid    Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     Poem      Poem?    @relation(fields: [poemId], references: [id])
