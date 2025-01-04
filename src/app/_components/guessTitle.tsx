@@ -1,8 +1,8 @@
 "use client";
 
 import { Poem } from "@prisma/client";
+import { check } from "prettier";
 import { useState } from "react";
-
 import { api } from "~/trpc/react";
 
 export function GuessTitle({ poemsList }: { poemsList: Poem[] }) {
@@ -11,37 +11,29 @@ export function GuessTitle({ poemsList }: { poemsList: Poem[] }) {
 
   // Get user from session
   const userid = 1;
+  var guessedTitle = '';
 
   const createGuess = api.guessTitle.create.useMutation({
     onSuccess: async () => {
       await utils.guessTitle.invalidate();
+      const checkGuess = api.poem.getCheck.useQuery({
+        text: guessedTitle
+      });
+
     },
   });
 
   const handleSubmit = async (formData: FormData) => {
-    // Qui puoi gestire l'invio del form
-    console.log('Form submitted:', Object.fromEntries(formData));
-
-    const values: Poem[] = [];
-    poemsList.map(poem => {
-      var _poem: Poem = {
-        id: 0,
-        name: formData.get(poem.name) as string,
-        title: formData.get(`value`) as string,
-        createdAt: new Date(),
-        volumeId: 1,
-      }
-      values.push(_poem);
-    });
+    guessedTitle = formData.get('title') as string
 
     createGuess.mutate({
       poemid: parseInt(formData.get('poemId') as string),
-      title: formData.get('title') as string,
+      title: guessedTitle,
       userid: userid,
     })
 
-  };
 
+  };
 
   return (
     <div className="w-full max-w-xs">
@@ -59,7 +51,6 @@ export function GuessTitle({ poemsList }: { poemsList: Poem[] }) {
             className="w-full rounded-full px-4 py-2 text-black"
           />
           <input type="hidden" name="poemId" value={poem.id.toString()} />
-
           <button
             type="submit"
             className="rounded-full bg-white/10 px-3 py-2 font-semibold transition hover:bg-white/20"
@@ -67,6 +58,7 @@ export function GuessTitle({ poemsList }: { poemsList: Poem[] }) {
           >
             {createGuess.isPending ? "Submitting..." : "Invia"}
           </button>
+          <span key={poem.id}>corretto</span>
         </form>
       ))}
     </div >
