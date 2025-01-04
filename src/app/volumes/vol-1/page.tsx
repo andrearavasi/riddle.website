@@ -16,7 +16,11 @@ export default async function Page() {
                         <h2>Indovina i titoli</h2>
                     </div>
                 </div>
-                <GuessTitle poemsList={poemsList} ></GuessTitle>
+                <div className="w-full max-w-xs">
+                    {poemsList.map((poem) =>
+                        <GuessTitle poem={poem} ></GuessTitle>
+                    )}
+                </div >
             </div>
         </main>
     );

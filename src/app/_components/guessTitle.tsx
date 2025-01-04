@@ -1,11 +1,9 @@
 "use client";
 
 import { Poem } from "@prisma/client";
-import { check } from "prettier";
-import { useState } from "react";
 import { api } from "~/trpc/react";
 
-export function GuessTitle({ poemsList }: { poemsList: Poem[] }) {
+export function GuessTitle({ poem }: { poem: Poem }) {
 
   const utils = api.useUtils();
 
@@ -36,31 +34,27 @@ export function GuessTitle({ poemsList }: { poemsList: Poem[] }) {
   };
 
   return (
-    <div className="w-full max-w-xs">
-      {poemsList.map((poem) => (
-        <form
-          key={poem.id}
-          action={handleSubmit}
-          className="flex gap-2 p-2 items-center"
-        >
-          <span>{poem.name}</span>
-          <input
-            type="text"
-            name={'title'}
-            placeholder="Titolo"
-            className="w-full rounded-full px-4 py-2 text-black"
-          />
-          <input type="hidden" name="poemId" value={poem.id.toString()} />
-          <button
-            type="submit"
-            className="rounded-full bg-white/10 px-3 py-2 font-semibold transition hover:bg-white/20"
-            disabled={createGuess.isPending}
-          >
-            {createGuess.isPending ? "Submitting..." : "Invia"}
-          </button>
-          <span key={poem.id}>corretto</span>
-        </form>
-      ))}
-    </div >
+    <form
+      key={poem.id}
+      action={handleSubmit}
+      className="flex gap-2 p-2 items-center"
+    >
+      <span>{poem.name}</span>
+      <input
+        type="text"
+        name={'title'}
+        placeholder="Titolo"
+        className="w-full rounded-full px-4 py-2 text-black"
+      />
+      <input type="hidden" name="poemId" value={poem.id.toString()} />
+      <button
+        type="submit"
+        className="rounded-full bg-white/10 px-3 py-2 font-semibold transition hover:bg-white/20"
+        disabled={createGuess.isPending}
+      >
+        {createGuess.isPending ? "Submitting..." : "Invia"}
+      </button>
+      <span key={poem.id}>corretto</span>
+    </form>
   );
 }
