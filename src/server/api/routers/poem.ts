@@ -1,4 +1,3 @@
-import { title } from "process";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -22,4 +21,12 @@ export const poemRouter = createTRPCRouter({
 
       return poem ?? null;
     }),
+
+  getCheck123: publicProcedure.query(async ({ ctx }) => {
+    const post = await ctx.db.poem.findFirst({
+      orderBy: { createdAt: "asc" },
+    });
+
+    return post ?? null;
+  }),
 });

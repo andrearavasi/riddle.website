@@ -18,7 +18,7 @@ export default async function Page() {
                 </div>
                 <div className="w-full max-w-xs">
                     {poemsList.map((poem) =>
-                        <GuessTitle poem={poem} ></GuessTitle>
+                        <GuessTitle poem={poem} key={poem.id} ></GuessTitle>
                     )}
                 </div >
             </div>

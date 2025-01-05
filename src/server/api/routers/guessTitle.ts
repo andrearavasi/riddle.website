@@ -23,16 +23,18 @@ export const guessTitleRouter = createTRPCRouter({
       });
     }),
 
-  getLatest: publicProcedure.query(async ({ ctx }) => {
-    const post = await ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-    });
+  getLatest: publicProcedure
+    .query(async ({ ctx }) => {
+      const post = await ctx.db.post.findFirst({
+        orderBy: { createdAt: "desc" },
+      });
+      return post ?? null;
+    }),
 
-    return post ?? null;
-  }),
+  getAll: publicProcedure
+    .query(async ({ ctx }) => {
+      const volumes = await ctx.db.volume.findMany();
+      return volumes ?? null;
+    }),
 
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    const volumes = await ctx.db.volume.findMany();
-    return volumes ?? null;
-  }),
 });
