@@ -4,7 +4,8 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 
 export function VolumesList() {
-    const [allVolumes] = api.volume.getAll.useSuspenseQuery();
+    const { data: allVolumes } = api.volume.getAll.useQuery();
+
     return (
         <div className="w-full max-w-xs">
             <ul>
