@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode } from "react";
+import type { Key } from "react";
 import type { UrlObject } from "url";
 import { api } from "~/trpc/react";
 
