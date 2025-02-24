@@ -33,7 +33,6 @@ export function GuessTitle({ poem }: { poem: Poem }) {
       title: title,
       userid: userid,
     });
-
   };
 
   return (
