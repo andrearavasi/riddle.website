@@ -40,6 +40,15 @@ export default function Footer() {
                         <ArrowIcon />
                         <p className="ml-2 h-7">exuvia</p>
                     </a>
+                    <a
+                        className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        href="https://riddle.website/privacy"
+                    >
+                        <ArrowIcon />
+                        <p className="ml-2 h-7">privacy</p>
+                    </a>
                 </li>
 
             </ul>

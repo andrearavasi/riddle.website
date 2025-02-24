@@ -17,7 +17,7 @@ export default async function Page() {
                     </div>
                 </div>
                 <div className="w-full flex flex-col">
-                    {poemsList.map((poem) =>
+                    {poemsList.map((poem: { name: string; createdAt: Date; id: number; title: string; volumeId: number | null; }) =>
                         <GuessTitle poem={poem} key={poem.id} ></GuessTitle>
                     )}
                 </div >
