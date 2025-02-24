@@ -16,7 +16,7 @@ export default async function Page() {
                         <h2>Indovina i titoli</h2>
                     </div>
                 </div>
-                <div className="w-full max-w-xs">
+                <div className="w-full flex flex-col">
                     {poemsList.map((poem) =>
                         <GuessTitle poem={poem} key={poem.id} ></GuessTitle>
                     )}

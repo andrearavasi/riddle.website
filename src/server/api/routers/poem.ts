@@ -1,5 +1,4 @@
-import { boolean, z } from "zod";
-
+import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const poemRouter = createTRPCRouter({
@@ -21,7 +20,7 @@ export const poemRouter = createTRPCRouter({
         select: { title: true },
       });
 
-      var isCorrect = false;
+      let isCorrect = false;
       if (poem)
         isCorrect = poem.title === input.text;
 
