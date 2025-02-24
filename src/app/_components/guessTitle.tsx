@@ -5,7 +5,7 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 
 export function GuessTitle({ poem }: { poem: Poem }) {
-  const [spanState, setSpanState] = useState("");
+  const [spanState, setSpanState] = useState<null | boolean>(null);
   const [guessedTitle, setGuessedTitle] = useState<string>("");
   const utils = api.useUtils();
 
@@ -15,25 +15,21 @@ export function GuessTitle({ poem }: { poem: Poem }) {
   const createGuess = api.guessTitle.create.useMutation({
     onSuccess: async (data) => {
       await utils.guessTitle.invalidate();
-      await compareTitle.refetch();
-      const titleToCompare = compareTitle.data?.title;
-      if (titleToCompare === data.title) setSpanState('Corretto')
-      else setSpanState('Errato');
+      compareTitleMutation.mutate({ text: data.title, poemid: poem.id });
     },
   });
 
-  const compareTitle = api.poem.getCheck.useQuery(
-    { text: guessedTitle },
-    { enabled: !!guessedTitle }
-  );
+  const compareTitleMutation = api.poem.getCheck.useMutation({
+    onSuccess: (data) => setSpanState(data.isCorrect),
+  });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title') as string
     setGuessedTitle(title);
 
-    await createGuess.mutateAsync({
+    createGuess.mutate({
       poemid: parseInt(formData.get('poemId') as string),
       title: title,
       userid: userid,
@@ -63,7 +59,9 @@ export function GuessTitle({ poem }: { poem: Poem }) {
       >
         {createGuess.isPending ? "Submitting..." : "Invia"}
       </button>
-      <span >{spanState}</span>
+      {spanState !== null && (
+        <p>{spanState ? "Corretto!" : "Sbagliato, riprova!"}</p>
+      )}
     </form>
   );
 }

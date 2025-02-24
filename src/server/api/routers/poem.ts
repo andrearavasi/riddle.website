@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { boolean, z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -12,14 +12,20 @@ export const poemRouter = createTRPCRouter({
     .input(
       z.object({
         text: z.string(),
+        poemid: z.number(),
       }),
     )
-    .query(async ({ ctx, input }) => {
-      const poem = await ctx.db.poem.findFirst({
-        where: { title: input.text }
+    .mutation(async ({ ctx, input }) => {
+      const poem = await ctx.db.poem.findUnique({
+        where: { id: input.poemid },
+        select: { title: true },
       });
 
-      return poem ?? null;
+      var isCorrect = false;
+      if (poem)
+        isCorrect = poem.title === input.text;
+
+      return { isCorrect };
     }),
 
   getCheck123: publicProcedure.query(async ({ ctx }) => {
