@@ -19,15 +19,17 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${GeistSans.variable}`}>
-        <body className="antialiased max-h-screen  max-w-xl mx-4 mt-8 lg:mx-auto bg-black text-white">
-          <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0 ">
-            <Navbar></Navbar>
-            <TRPCReactProvider>{children}</TRPCReactProvider>
-            <Footer></Footer>
-          </main>
-        </body>
-      </html>
+      <TRPCReactProvider>
+        <html lang="en" className={`${GeistSans.variable}`}>
+          <body className="antialiased max-h-screen  max-w-xl mx-4 mt-8 lg:mx-auto bg-black text-white">
+            <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0 ">
+              <Navbar></Navbar>
+              {children}
+              <Footer></Footer>
+            </main>
+          </body>
+        </html>
+      </TRPCReactProvider>
     </ClerkProvider>
   );
 }

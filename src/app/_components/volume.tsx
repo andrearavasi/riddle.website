@@ -1,8 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import type { Key } from "react";
-import type { UrlObject } from "url";
 import { api } from "~/trpc/react";
 
 export function VolumesList() {
@@ -11,7 +9,7 @@ export function VolumesList() {
     return (
         <div className="w-full max-w-xs">
             <ul>
-                {allVolumes ? allVolumes.map((volume: { id: Key | null | undefined; path: string | UrlObject; name: string; description: string; }) => (
+                {allVolumes ? allVolumes.map((volume: { path: string; description: string; name: string; id: number; }) => (
                     <li key={volume.id}>
                         <Link href={volume.path} className="flex gap-10">
                             <p >{volume.name}</p>
