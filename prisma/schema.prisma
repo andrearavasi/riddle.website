@@ -31,15 +31,17 @@ model Volume {
     @@index([name])
 }
 
-model User {
-    id        Int            @id @default(autoincrement())
-    name      String
-    createdAt DateTime       @default(now())
-    updatedAt DateTime?      @updatedAt
-    guesses   GuessedTitle[]
+// model User {
+//     id        Int            @id @default(autoincrement())
+//     name      String
+//     email     String         @unique
+//     pswHash   String
+//     createdAt DateTime       @default(now())
+//     updatedAt DateTime?      @updatedAt
+//     guesses   GuessedTitle[]
 
-    @@index([name])
-}
+//     @@index([name])
+// }
 
 model Poem {
     id        Int            @id @default(autoincrement())
@@ -60,8 +62,61 @@ model GuessedTitle {
     updatedAt DateTime @updatedAt
     Poem      Poem?    @relation(fields: [poemId], references: [id])
     poemId    Int?
-    User      User?    @relation(fields: [userId], references: [id])
-    userId    Int?
+    User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
 
     @@index([title])
+}
+
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    email         String    @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    GuessedTitle GuessedTitle[]
+}
+
+model Account {
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@id([provider, providerAccountId])
+}
+
+model Session {
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+    identifier String
+    token      String
+    expires    DateTime
+
+    @@id([identifier, token])
 }

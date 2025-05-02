@@ -49,6 +49,15 @@ export default function Footer() {
                         <ArrowIcon />
                         <p className="ml-2 h-7">privacy</p>
                     </a>
+                    <a
+                        className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        href="https://riddle.website/termini-e-condizioni"
+                    >
+                        <ArrowIcon />
+                        <p className="ml-2 h-7">termini e condizioni</p>
+                    </a>
                 </li>
 
             </ul>
